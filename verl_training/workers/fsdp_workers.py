@@ -309,7 +309,7 @@ class AgenticActorRolloutRefWorker(Worker):
         mixed_precision = MixedPrecision(param_dtype=param_dtype, reduce_dtype=reduce_dtype, buffer_dtype=buffer_dtype)
 
         auto_wrap_policy = get_fsdp_wrap_policy(module=actor_module, config=fsdp_config.get('wrap_policy', None))
-n
+
         if self._is_rollout and self.config.rollout.name == 'hf':
             # TODO(zhangchi.usc1992, shengguangming) fix me. Current, auto_wrap_policy causes HFRollout to hang in Gemma
             auto_wrap_policy = None

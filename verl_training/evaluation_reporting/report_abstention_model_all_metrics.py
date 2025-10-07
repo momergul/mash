@@ -60,8 +60,7 @@ def report_accuracy_metrics(model_question_to_outputs):
 
     neural_accs = round(100 * np.mean(neural_accs), 2)
     neural_precision = round(100*np.mean(neural_precision), 2) if len(neural_precision) != 0 else 0
-    sqa_f1 = round(2 * neural_accs * neural_precision / (neural_accs + neural_precision), 2)
-    return [neural_accs, neural_precision, sqa_f1]
+    return [neural_accs, neural_precision]
 
 def report_test_results(args, filename):
     # Load the output file
@@ -71,16 +70,16 @@ def report_test_results(args, filename):
 
     acc_metrics = report_accuracy_metrics(model_question_to_outputs)
     print(acc_metrics)
-    abstention_metrics = abstention_metrics(args, args.dataset, model_question_to_outputs, args.answerability_threshold)
-    print(abstention_metrics)
+    abstention_results = abstention_metrics(args, args.dataset, model_question_to_outputs, args.answerability_threshold)
+    print(abstention_results)
 
     formatted_outputs_acc = ""
-    for val in acc_metrics[:2]:
+    for val in acc_metrics:
         formatted_outputs_acc += f"& {val:.2f} "
     print(formatted_outputs_acc)
 
     formatted_outputs_abs = ""
-    for val in abstention_metrics[-1]:
+    for val in abstention_results[-1]:
         formatted_outputs_abs += f"& {val:.2f} "
     print(formatted_outputs_abs)
 

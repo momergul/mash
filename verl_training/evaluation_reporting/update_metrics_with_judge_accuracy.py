@@ -19,7 +19,7 @@ from verl_training.rule_based_rewards.reward_functions import extract_answer
 from verl_training.abstention_scripts.accuracy_estimation.evaluate_model_responses import sample_judgement_outputs, \
     judgement_prompt, normalize_answer, extract_float
 
-EXPERIMENT_DIR = "experiments/factscore_verl"
+EXPERIMENT_DIR = "experiments/agentic_verl"
 
 def get_config():
     parser = argparse.ArgumentParser()

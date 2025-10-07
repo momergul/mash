@@ -8,7 +8,7 @@ import argparse
 import json
 from collections import Counter
 
-EXPERIMENT_DIR = "experiments/factscore_verl"
+EXPERIMENT_DIR = "experiments/agentic_verl"
 ACC_ESTIMATES_DIR = "data/model_accuracy_estimates/preds"
 
 def get_config():
@@ -77,8 +77,8 @@ def report_test_results(args, metric_path):
             metric_values.append('-' if found_value is None else found_value)
 
         print(metric_values)
-        abstention_metrics = abstention_metrics(args, dataset, step_outputs, args.answerability_threshold)
-        print(abstention_metrics)
+        abstention_results = abstention_metrics(args, dataset, step_outputs, args.answerability_threshold)
+        print(abstention_results)
         
         formatted_outputs = ""
         for val in metric_values:
@@ -86,7 +86,7 @@ def report_test_results(args, metric_path):
         print(formatted_outputs)
 
         formatted_outputs = ""
-        for val in abstention_metrics[-1]:
+        for val in abstention_results[-1]:
             formatted_outputs += f"& {val:.2f} "
         print(formatted_outputs)
         print()

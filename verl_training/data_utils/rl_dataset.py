@@ -124,7 +124,7 @@ class RLHFDataset(Dataset):
                  chat_template_func=None,
                  return_raw_chat=False,
                  truncation='error',
-                 filter_overlong_prompts=False)
+                 filter_overlong_prompts=False):
         if not isinstance(parquet_files, (List, ListConfig)):
             parquet_files = [parquet_files]
 

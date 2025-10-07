@@ -80,23 +80,16 @@ class TaskRunner:
     def set_datapaths(self, config):
         import os
         parent_dir = "data"
-        if config.data.task == "biography":
-            config.data.train_files = os.path.join(parent_dir, "entities", "train_verl.parquet")
-            config.data.val_files = os.path.join(parent_dir, "entities", "val_verl.parquet")
-            config.data.test_files = os.path.join(parent_dir, "entities", "test_verl.parquet")
-        elif config.data.task == "shortform":
-            dataset_prefix = config.data.shortform_dataset_prefix
-            config.data.train_files = os.path.join(parent_dir, "shortform_qa", f"{dataset_prefix}_train.parquet")
-            config.data.val_files = os.path.join(parent_dir, "shortform_qa", f"{dataset_prefix}_fast_dev.parquet")
-            config.data.test_files = os.path.join(parent_dir, "shortform_qa", f"{dataset_prefix}_test.parquet")
-            if config.trainer.sft_subsample:
-                prefix = config.data.shortform_prompt_type
-                config.data.test_files = os.path.join(parent_dir, "shortform_qa", f"{prefix}_prompt_{dataset_prefix}_sft_subsample.parquet") 
+        dataset_prefix = config.data.shortform_dataset_prefix
+        config.data.train_files = os.path.join(parent_dir, "shortform_qa", f"{dataset_prefix}_train.parquet")
+        config.data.val_files = os.path.join(parent_dir, "shortform_qa", f"{dataset_prefix}_fast_dev.parquet")
+        config.data.test_files = os.path.join(parent_dir, "shortform_qa", f"{dataset_prefix}_test.parquet")
+
     def set_model_path(self, config):
         import os
         if config.actor_rollout_ref.model.load_from_hf:
             model_name = config.actor_rollout_ref.model.hf_model
-            if "naive_sft" in model_name:
+            if "warm_start" in model_name:
                 path = f"momergul/{model_name}"                
             elif "qwen" in model_name:
                 path = "Qwen/Qwen2.5-3B"        
@@ -156,7 +149,7 @@ class TaskRunner:
             prefix = "test_outputs" if config.trainer.pure_test_suffix == '' else f'test_outputs_{config.trainer.pure_test_suffix}'
             trainer.pure_test(f"{prefix}_{test_metric}", dataloader=trainer.test_dataloader)
         else:
-            trainer.fit() # TODO
+            trainer.fit()
             if not config.trainer.skip_final_test:
                 for metric in config.trainer.save_metrics:
                     config.trainer.test_load_metric = metric

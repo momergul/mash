@@ -385,8 +385,7 @@ class AgenticGRPOTrainer(object):
         print("[validate_config] All configuration checks passed successfully!")
 
     def _create_dataloader(self):
-        use_val_batch_sizes = self.config.trainer.sft_subsample or self.config.trainer.save_outputs_for_all_sets
-        drop_last_for_train = not use_val_batch_sizes
+        drop_last_for_train = True
 
         # TODO: we have to make sure the batch size is divisible by the dp size
         self.train_dataset = RLHFDataset(parquet_files=self.config.data.train_files,
@@ -411,7 +410,7 @@ class AgenticGRPOTrainer(object):
         else:
             sampler = SequentialSampler(data_source=self.train_dataset)
 
-        train_batch_size = self.config.data.val_batch_size if use_val_batch_sizes else self.config.data.train_batch_size
+        train_batch_size = self.config.data.train_batch_size
         self.train_dataloader = StatefulDataLoader(dataset=self.train_dataset,
                                                    batch_size=train_batch_size,
                                                    num_workers=8,
@@ -438,14 +437,13 @@ class AgenticGRPOTrainer(object):
             dataset=self.val_dataset,
             # Validation datasets are sent to inference engines as a whole batch,
             # which will schedule the memory themselves.
-            batch_size=self.config.data.val_batch_size if use_val_batch_sizes else len(self.val_dataset),
+            batch_size=len(self.val_dataset),
             num_workers=8,
             shuffle=False,
             drop_last=False,
             collate_fn=collate_fn)
 
         # Create test set
-        adaptation_config = self.config.trainer.adaptation_generation_args if self.config.trainer.adaptation_generation else None
         self.test_dataset = RLHFDataset(parquet_files=self.config.data.test_files,
                                         prompt_type=self.config.data.shortform_prompt_type,
                                         tokenizer=self.tokenizer,
@@ -464,7 +462,7 @@ class AgenticGRPOTrainer(object):
             dataset=self.test_dataset,
             # Validation datasets are sent to inference engines as a whole batch,
             # which will schedule the memory themselves.
-            batch_size=self.config.data.val_batch_size if use_val_batch_sizes else len(self.test_dataset),
+            batch_size=len(self.test_dataset),
             num_workers=8,
             shuffle=False,
             drop_last=False,

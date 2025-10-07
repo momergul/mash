@@ -8,7 +8,7 @@ import argparse
 
 from collections import Counter
 
-EXPERIMENT_DIR = "experiments/factscore_verl"
+EXPERIMENT_DIR = "experiments/agentic_verl"
 
 def get_config():
     parser = argparse.ArgumentParser()
@@ -21,6 +21,7 @@ def get_config():
 
 def report_test_results(metric_path):
     # Load the metrics
+    print(metric_path)
     with open(metric_path, 'rb') as f:
         metrics, step_outputs = pickle.load(f)
     print(f"Reporting results for: {metric_path}")

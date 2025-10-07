@@ -101,7 +101,7 @@ class QARewardManager:
                 rewards.append(unprocessed_reward * penalty)
 
             return penalties, rewards
-        elif self.reward_config.retrieval_penalty_type in ["otc_grpo", "otc_grpo_strict", "exponential"]:
+        elif self.reward_config.retrieval_penalty_type in ["otc", "otc_strict", "exp"]:
             penalties = [0 for _ in range(len(correctness_and_format))]
             rewards = [0 for _ in range(len(correctness_and_format))]
 
@@ -145,7 +145,7 @@ class QARewardManager:
                 penalty = 0 if unprocessed_reward == 0 else exponential_penalty(self.reward_config, searches, estimated_min) 
             penalties[question_idx] = penalty
             reward = unprocessed_reward * penalty
-            if group_penalty_type in ["otc_grpo_strict"] and estimated_min == 0:
+            if group_penalty_type in ["otc_strict"] and estimated_min == 0:
                 reward = reward if searches == 0 else 0
             rewards[question_idx] = reward
 

@@ -8,7 +8,7 @@ import argparse
 
 from collections import Counter
 
-EXPERIMENT_DIR = "experiments/factscore_verl"
+EXPERIMENT_DIR = "experiments/agentic_verl"
 
 def get_config():
     parser = argparse.ArgumentParser()

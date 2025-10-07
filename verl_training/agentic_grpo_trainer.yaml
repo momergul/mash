@@ -178,7 +178,7 @@ reward_model:
     name: search_em_and_format
     use_em: True
     max_searches: ${actor_rollout_ref.rollout.retrieval_kwargs.max_searches}
-    retrieval_penalty_type: none # {none, linear, otc_grpo, otc_grpo_strict, exponential}
+    retrieval_penalty_type: none # {none, linear, otc, otc_strict, exp}
     topk: ${actor_rollout_ref.rollout.retrieval_kwargs.shortform_retrieval.topk}
     format_combination_strategy: none # {multiply, add, none}
     format_reward_coeff: 0.1
@@ -211,7 +211,7 @@ trainer:
   total_epochs: 15
   total_training_steps: null
   early_stop: 400
-  project_name: factscore_verl
+  project_name: agentic_verl
   experiment_name: testing
   logger: [ 'wandb' ]
   val_generations_to_log_to_wandb: 0
