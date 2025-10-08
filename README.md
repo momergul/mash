@@ -16,7 +16,7 @@ Setup
 ```
 conda create -n mash python=3.10
 conda activate mash
-bash setup/create_mash_environment.sh
+bash setup/create_mash_environment.sh # TODO
 ``` 
 N.B.: If you receive flash attention errors when doing RL training, downgrading to version 2.7.3 can help.
 
@@ -35,7 +35,7 @@ pip install uvicorn fastapi
 
 1. First download the Wikipedia dump needed for the retriever by running:
 ```
-bash setup/download_retrieval_data.sh
+bash setup/download_retrieval_data.sh 
 ``` 
 
 2. Then run the following to download data particular to this project:
@@ -81,7 +81,7 @@ bash example_scripts/mash_training/evaluation.sh <dataset_name> <search_penalty>
 
 Alternatively, if you wish to do evaluation with one of our trained models, run:
 ```
-bash example_scripts/mash_training/paper_model_evaluation.sh <model_name> <test_dataset_name> <API_KEY> <retriever_port>
+bash example_scripts/mash_training/paper_model_evaluation.sh <model_name> <test_dataset_name> <API_KEY> <retriever_port> 
 ``` 
 All trained models can be found in Huggingface, with the prefix `momergul/mash_`.
 
